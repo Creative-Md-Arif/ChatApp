@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.mygroupitems {
+    @apply shadow-[rgba(9,30,66,0.25)_0px_4px_8px_-2px,rgba(9,30,66,0.08)_0px_0px_0px_1px] overflow-y-auto;
+  }
+  .mygroupitems::-webkit-scrollbar{
+    @apply overflow-y-hidden w-0;
+  }

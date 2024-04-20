@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 import { Link , useNavigate } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword , sendEmailVerification} from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Registration = () => {
   const auth = getAuth();
   const navigate = useNavigate();
+  const [showpassword , setShowPassword] = useState ("");
   let [name , setName] = useState("");
   let [email , setEmail] = useState("");
   let [password , setPassword] = useState("");
@@ -43,6 +46,7 @@ const Registration = () => {
         setName("");
         setEmail("");
         setPassword("");
+        setUserError("")
 
         setTimeout(()=>{
           navigate("/login");
@@ -80,7 +84,7 @@ const Registration = () => {
         <div className="flex flex-col w-[400px] gap-5">
             <input 
              value={name}
-             onChange={(e)=> setName (e.target.value)} 
+             onChange={(e)=> {setName (e.target.value), setUserError('')}} 
              type="text"
              placeholder="Full Name"
              className="py-3 pl-2 border border-[#DDDFE2] rounded-md" />
@@ -88,20 +92,35 @@ const Registration = () => {
             
             <input 
              value={email}
-             onChange={(e)=> setEmail (e.target.value)} 
+             onChange={(e)=>{ setEmail (e.target.value), setUserError("")}} 
              type="email"
              placeholder="E-mail" 
              className="py-3 pl-2 border border-[#DDDFE2] rounded-md" />
             {userError.emailError &&  (<p>{userError.emailError}</p> )}
 
 
+            <div className='flex items-center relative'>
             <input 
              value={password}
-             onChange={(e)=> setPassword (e.target.value)} 
-             type="password"
+             onChange={(e)=> {setPassword (e.target.value), setUserError("")}} 
+             type={ showpassword ? "text" : "password"}
              placeholder="Password"
-             className="py-3 pl-2 border border-[#DDDFE2] rounded-md"/>
-              {userError.passwordError &&  (<p>{userError.passwordError}</p>)}
+             className="py-3 pl-2  w-full border border-[#DDDFE2] rounded-md"/>
+             {userError.passwordError &&  (<p>{userError.passwordError}</p>)}
+             <div onClick={() => setShowPassword(showpassword == "")}
+              className=' absolute right-2'>
+              {
+              showpassword ?
+              <FaEye
+              className='pr-2 text-xl '/>
+              :
+              <FaEyeSlash
+              className='pr-2 text-xl' />
+
+              }
+
+             </div>
+            </div>
 
             <button 
              onClick={handleSubmit} 

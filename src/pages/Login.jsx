@@ -1,10 +1,14 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { loggeduser } from '../slice/userSlice';
 
 
 
@@ -12,7 +16,9 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 const Login = () => {
+    const dispatch = useDispatch("");
     const auth = getAuth();
+    const db = getDatabase();
     let navigate = useNavigate()
     const [emailError , setEmailError] = useState ("");
     const [showpassword , setShowPassword] = useState ("");
@@ -23,7 +29,6 @@ const Login = () => {
     });
 
     const handleSubmit = () =>{
-        console.log(loginData);
         if( loginData.email == "") {
             setEmailError("Email is Required")
         }
@@ -33,22 +38,29 @@ const Login = () => {
             signInWithEmailAndPassword(auth, loginData.email, loginData.password)
         .then((res) =>{
             if( res.user.emailVerified == false) {
-            toast.success('Email is not verified !', {
-                position: "top-center",
-                autoClose: 3000,
-                closeOnClick: true,
+                toast.success('Email is not verified !', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    closeOnClick: true,
                 theme: "light",
                 });
-            } else {
-
+            } else {         
+                 set(ref(db, 'users/' + res.user.uid), {
+                    username: res.user.displayName,
+                    email: res.user.email,
+                    profile_picture : res.user?.photoURL,
+                 });
+       
                 toast.success('Login successful', {
                     position: "top-center",
                     autoClose: 3000,
                     closeOnClick: true,
                     theme: "light",
-                    });
-                setTimeout(() => {
-                    navigate("/")
+                });
+                   dispatch(loggeduser(res.user));
+                   console.log(res);             
+                   setTimeout(() => {
+                   navigate("/")
                 }, 1500);
             }
         })

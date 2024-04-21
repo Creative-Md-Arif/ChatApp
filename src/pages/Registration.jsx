@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link , useNavigate } from 'react-router-dom'
-import { getAuth, createUserWithEmailAndPassword , sendEmailVerification} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword , sendEmailVerification , updateProfile } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -35,24 +35,30 @@ const Registration = () => {
       createUserWithEmailAndPassword(auth, email , password )
       .then((userCredential) => {
         sendEmailVerification(auth.currentUser);
-        toast.success('Registration Successful. Please verify your email', {
-        position: "top-center",
-        autoClose: 3000,
-        closeOnClick: true,
-        theme: "light",
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+        }).then((res)=>{
+
+          toast.success('Registration Successful. Please verify your email', {
+          position: "top-center",
+          autoClose: 3000,
+          closeOnClick: true,
+          theme: "light",
+          });
+  
+         
+          setName("");
+          setEmail("");
+          setPassword("");
+          setUserError("")
+  
+          setTimeout(()=>{
+            navigate("/login");
+        }, 3000);
+
         });
-
-       
-        setName("");
-        setEmail("");
-        setPassword("");
-        setUserError("")
-
-        setTimeout(()=>{
-          navigate("/login");
-      }, 3000);
         
-    
       })
       .catch((error) => {
         console.log(error.code);

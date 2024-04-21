@@ -10,9 +10,9 @@ export const userSlice = createSlice({
 
   reducers: {
    // eslint-disable-next-line no-unused-vars
-   loggeduser: (state, payload) =>{
-    state.value;
-    console.log(payload);
+   loggeduser: (state, Action) =>{
+     state.value += Action.payload;
+    console.log(Action);
 
    }
   

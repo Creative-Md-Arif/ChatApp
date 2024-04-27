@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { CiChat2 } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
+import { useSelector } from 'react-redux';
 
 
 
 
 const Navbar = () => {
+    let user = useSelector((state) => state.userSlice.user);
   return (
       <nav className='w-[300px]  bg-gray-900 pl-[24px] pt-12 flex flex-col justify-between border-r-2'>
          <div>
@@ -41,10 +43,10 @@ const Navbar = () => {
           <Link to="/profile">
           <div className='flex items-center gap-3 user text-start pb-8 font-secondary font-normal  text-primary'>
              <div>
-             <img className='w-10 rounded-full' src="/src/assets/Profile-img.png" alt="" />
+             <img className='w-10 rounded-full' src={user?.photoURL} alt="" />
              </div>
              <div>
-             <h1 className='text-[16px]'>Mohammad</h1>
+             <h1 className='text-[16px]'>{user?.displayName}</h1>
              <p className='text-xs'>Edit Profile</p>
              </div>
           </div>

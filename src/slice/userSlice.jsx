@@ -3,18 +3,20 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 export const userSlice = createSlice({
-  name: 'counter',
+  name: 'user',
   initialState: {
-    value : 0,
+    user:JSON.parse(localStorage.getItem("user")) 
+    ?
+    JSON.parse(localStorage.getItem("user")) 
+    : null,
   },
 
   reducers: {
    // eslint-disable-next-line no-unused-vars
-   loggeduser: (state, Action) =>{
-     state.value += Action.payload;
-    console.log(Action);
+   loggeduser: (state, action) =>{
+     state.user = action.payload;
 
-   }
+   },
   
   },
 });

@@ -19,7 +19,7 @@ const Login = () => {
     const dispatch = useDispatch("");
     const auth = getAuth();
     const db = getDatabase();
-    let navigate = useNavigate()
+    let navigate = useNavigate();
     const [emailError , setEmailError] = useState ("");
     const [showpassword , setShowPassword] = useState ("");
     const [passwordError , setPasswordError] = useState ("");
@@ -45,23 +45,27 @@ const Login = () => {
                 theme: "light",
                 });
             } else {         
-                 set(ref(db, 'users/' + res.user.uid), {
+                 set(ref(db, 'user/' + res.user.uid), {
                     username: res.user.displayName,
                     email: res.user.email,
                     profile_picture : res.user?.photoURL,
-                 });
+                 }).then(()=>{
+                     toast.success('Login successful', {
+                         position: "top-center",
+                         autoClose: 3000,
+                         closeOnClick: true,
+                         theme: "light",
+                     });
+                     localStorage.setItem("user", JSON.stringify(res.user));
+                        dispatch(loggeduser(res.user));
+                        setTimeout(() => {
+                        navigate("/")
+                     }, 1500);
+
+                 }).catch((err)=>{
+                    
+                 })
        
-                toast.success('Login successful', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    closeOnClick: true,
-                    theme: "light",
-                });
-                   dispatch(loggeduser(res.user));
-                   console.log(res);             
-                   setTimeout(() => {
-                   navigate("/")
-                }, 1500);
             }
         })
         .catch((err) => {

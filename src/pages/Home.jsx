@@ -7,6 +7,8 @@ import People from "../components/homeItems/People"
 
 
 const Home = () => {
+  const userFromLocal = JSON.parse(localStorage.getItem("user"));
+  console.log("userFromLocal " , userFromLocal);
   return (
     <div className="bg-gray-800 w-screen p-4">
      <div className="flex gap-4">

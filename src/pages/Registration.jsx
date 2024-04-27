@@ -16,22 +16,26 @@ const Registration = () => {
   let [name , setName] = useState("");
   let [email , setEmail] = useState("");
   let [password , setPassword] = useState("");
-
+  let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   const [userError , setUserError] = useState({
     nameError : "" ,
     emailError : "" ,
     passwordError : "",
   });
-
+  
   const handleSubmit = () => {
+    
+    
+
     if ( name == "" ) {
       setUserError({ nameError: "Name is Required!"});
     } else if ( email == "" ) {
       setUserError({emailError : "Email is Required! "})
-    } else if ( password == ""){ 
+    } else if ( !password){ 
        setUserError({ passwordError : "Password is Required"})
-
-    } else {
+    } else if (!re.test(password)){ 
+      setUserError({ passwordError : "Inter a Strong password Please Use upper , lowercase letters, number and symbol "})
+   }  else  {
       createUserWithEmailAndPassword(auth, email , password )
       .then((userCredential) => {
         sendEmailVerification(auth.currentUser);
@@ -75,7 +79,7 @@ const Registration = () => {
       });
 
     }
-  };
+ };
 
 
   return (
@@ -105,14 +109,13 @@ const Registration = () => {
             {userError.emailError &&  (<p>{userError.emailError}</p> )}
 
 
-            <div className='flex items-center relative'>
+            <div className='flex flex-col items-center relative'>
             <input 
              value={password}
              onChange={(e)=> {setPassword (e.target.value), setUserError("")}} 
              type={ showpassword ? "text" : "password"}
              placeholder="Password"
              className="py-3 pl-2  w-full border border-[#DDDFE2] rounded-md"/>
-             {userError.passwordError &&  (<p>{userError.passwordError}</p>)}
              <div onClick={() => setShowPassword(showpassword == "")}
               className=' absolute right-2'>
               {
@@ -122,11 +125,11 @@ const Registration = () => {
               :
               <FaEyeSlash
               className='pr-2 text-xl' />
-
-              }
-
+              
+            }
              </div>
             </div>
+            {userError.passwordError &&  (<p className=''>{userError.passwordError}</p>)}
 
             <button 
              onClick={handleSubmit} 

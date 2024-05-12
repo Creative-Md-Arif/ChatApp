@@ -11,7 +11,7 @@ const navigate = useNavigate();
 
 let user = useSelector((state) => state.userSlice.user);
 
-console.log(user);
+// console.log(user);
 
 useEffect(()=>{
   if( !user){

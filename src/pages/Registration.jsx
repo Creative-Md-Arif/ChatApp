@@ -16,7 +16,7 @@ const Registration = () => {
   let [name , setName] = useState("");
   let [email , setEmail] = useState("");
   let [password , setPassword] = useState("");
-  let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  // let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   const [userError , setUserError] = useState({
     nameError : "" ,
     emailError : "" ,
@@ -33,9 +33,10 @@ const Registration = () => {
       setUserError({emailError : "Email is Required! "})
     } else if ( !password){ 
        setUserError({ passwordError : "Password is Required"})
-    } else if (!re.test(password)){ 
-      setUserError({ passwordError : "Inter a Strong password Please Use upper , lowercase letters, number and symbol "})
-   }  else  {
+    } 
+    // else if (!re.test(password)){ 
+    //   setUserError({ passwordError : "Inter a Strong password Please Use upper , lowercase letters, number and symbol "})}
+      else  {
       createUserWithEmailAndPassword(auth, email , password )
       .then((userCredential) => {
         sendEmailVerification(auth.currentUser);

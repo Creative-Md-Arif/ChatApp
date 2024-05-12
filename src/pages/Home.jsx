@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import BlockList from "../components/homeItems/BlockList"
 import FriendRts from "../components/homeItems/FriendRts"
 import Friends from "../components/homeItems/Friends"
@@ -8,7 +9,7 @@ import People from "../components/homeItems/People"
 
 const Home = () => {
   const userFromLocal = JSON.parse(localStorage.getItem("user"));
-  console.log("userFromLocal " , userFromLocal);
+  // console.log("userFromLocal " , userFromLocal);
   return (
     <div className="bg-gray-800 w-screen p-4">
      <div className="flex gap-4">

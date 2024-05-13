@@ -34,7 +34,7 @@ const Navbar = () => {
                   <li>
                       <Link to="#" className='flex items-center gap-3'>
                       <CiUser />
-                       <span>User</span>
+                       <span>People</span>
                       </Link>
                   </li>
               </ul>
@@ -43,7 +43,7 @@ const Navbar = () => {
           <Link to="/profile">
           <div className='flex items-center gap-3 user text-start pb-8 font-secondary font-normal  text-primary'>
              <div>
-             <img className='w-10 rounded-full' src={user.photoURL} alt="" />
+              <img className='w-10 h-10 rounded-3xl' src={user.photoURL} alt="" />
              </div>
              <div>
              <h1 className='text-[16px]'>{user?.displayName}</h1>
